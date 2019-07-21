@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,springboot,MongoDB," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在使用mongodb的时候发现有个问题,就是对于它的自定义方法需要学习的成本,才能很好的在平常的过程中用java驱动调用mongodb.也行就是这个成本的东西有点高才导致很多人对mongo的使用方案不会第一时间进行考虑,对于一些事务强需求的领域就不说了,毕竟mongo的驱动都是非事务型的,不过在一些查询多的领域,配合es查询使用应该比关系型数据库好用很多. 所以目前为了解决这个痛点,搜索了中文">
+<meta name="keywords" content="java,springboot,MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb实现自定义注解">
+<meta property="og:url" content="https://fulln.github.io/2019/06/05/MongoDb/index.html">
+<meta property="og:site_name" content="Carpe Diem">
+<meta property="og:description" content="前言在使用mongodb的时候发现有个问题,就是对于它的自定义方法需要学习的成本,才能很好的在平常的过程中用java驱动调用mongodb.也行就是这个成本的东西有点高才导致很多人对mongo的使用方案不会第一时间进行考虑,对于一些事务强需求的领域就不说了,毕竟mongo的驱动都是非事务型的,不过在一些查询多的领域,配合es查询使用应该比关系型数据库好用很多. 所以目前为了解决这个痛点,搜索了中文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-21T14:33:08.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongodb实现自定义注解">
+<meta name="twitter:description" content="前言在使用mongodb的时候发现有个问题,就是对于它的自定义方法需要学习的成本,才能很好的在平常的过程中用java驱动调用mongodb.也行就是这个成本的东西有点高才导致很多人对mongo的使用方案不会第一时间进行考虑,对于一些事务强需求的领域就不说了,毕竟mongo的驱动都是非事务型的,不过在一些查询多的领域,配合es查询使用应该比关系型数据库好用很多. 所以目前为了解决这个痛点,搜索了中文">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fulln.github.io/2019/06/05/MongoDb/"/>
+
+
+
+
+
+  <title>mongodb实现自定义注解 | Carpe Diem</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Carpe Diem</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">fulln的个人博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2019/06/05/MongoDb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">mongodb实现自定义注解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T16:24:42+08:00">
+                2019-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/菜鸡java/" itemprop="url" rel="index">
+                    <span itemprop="name">菜鸡java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/05/MongoDb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/06/05/MongoDb/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/05/MongoDb/" class="leancloud_visitors" data-flag-title="mongodb实现自定义注解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在使用mongodb的时候发现有个问题,就是对于它的自定义方法需要学习的成本,才能很好的在平常的过程中用java驱动调用mongodb.也行就是这个成本的东西有点高才导致很多人对mongo的使用方案不会第一时间进行考虑,对于一些事务强需求的领域就不说了,毕竟mongo的驱动都是非事务型的<br>,不过在一些查询多的领域,配合es查询使用应该比关系型数据库好用很多. 所以目前为了解决这个痛点,搜索了中文网大部分的解决方案,配套使用了一套自定义注解对mongodb进行读写</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>目前主要是想实现的是入参一个实体类能自动对应出mongodb的对应的查询语句,然后调用template连接mongodb进行查询.<br>mongodb现网大部分解决思路都是使用的baseMongoDao然后再用具体的dao去继承,根据现网的情况稍微做了点调整:</p>
+<ol>
+<li>添加实体类注解,实现当前的字段和mongo的查询条件对应</li>
+<li>在basedao中添加注解拼装成query实体,直接放到template中执行</li>
+<li>满足分页需求,添加pagequery的方法</li>
+</ol>
+<h3 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h3><ol>
+<li>新增实体类注解@MongoField<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MongoField &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用的默认类型</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    QueryType <span class="keyword">type</span>() <span class="keyword">default</span> QueryType.EQUALS;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * db中的字段名称</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="built_in">String</span> attribute() <span class="keyword">default</span> <span class="string">""</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">这里考虑注解到字段层面,要继承的时候也能使用到,然后在这个queryType里面实现字段和query条件的转换</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>public enum QueryType {<br>    /*<em>
+     </em><br>     */<br>    EQUALS {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                return Criteria.where(queryField).is(value.toString());<br>            }<br>            return new Criteria();<br>        }<br>    },<br>    LIKE {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                return Criteria.where(queryField).regex(value.toString());<br>            }<br>            return new Criteria();<br>        }<br>    },<br>    IN {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                if (value instanceof List) {<br>                    String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                    // 此处必须转型为List，否则会在in外面多一层[]<br>                    return Criteria.where(queryField).in((List&lt;?&gt;)value);<br>                }<br>            }<br>            return new Criteria();<br>        }<br>    };</p>
+<pre><code>private static boolean check(MongoField queryField, Field field, Object value) {
+    return !(queryField == null || field == null || value == null);  
+}  
+
+
+public abstract Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value);
+
+
+/** 
+ * 如果实体bean的字段上QueryField注解没有设置attribute属性时，默认为该字段的名称 
+ * 
+ * @param queryField
+ * @param field 
+ * @return 
+ */  
+private static String getQueryFieldName(MongoField queryField, Field field) {
+    String queryFieldValue = queryField.attribute();
+    if (!StringUtils.hasText(queryFieldValue)) {
+        queryFieldValue = field.getName();  
+    }  
+    return queryFieldValue;  
+}
+</code></pre><p>}  </p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">2. </span>在这边我不是使用的basedao而是使用bean注入的形式进行调用,满足一个动态调用的情况,就是不知道这样有没有其他的未知的风险,然后在这个bean中新建了buildbasequery:</span><br></pre></td></tr></table></figure>
+<p>/**</p>
+<pre><code> * 根据vo构建查询条件Query
+ */
+public &lt;T&gt; Query buildBaseQuery(T t) {
+    final Query query = new Query();
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(
+            field -&gt; {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(t);
+</code></pre><p>//                        if (!checkInputParams(value)) {<br>                        if (value != null) {<br>                            MongoField queryField = field.getAnnotation(MongoField.class);<br>                            if (queryField != null) {<br>                                query.addCriteria(queryField.type().buildCriteria(queryField, field, value));<br>                            }<br>                        }<br>//                        }<br>                    } catch (IllegalArgumentException | IllegalAccessException e) {<br>                        log.error(“当前构建Query出现问题”, e);<br>                    }<br>                }<br>        );<br>        return query;<br>    }</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在这边我其实发现了一个问题,当我使用的类型为基础类型而不是他的包装类型的时候是会有个空值默认为<span class="number">0</span>的情况的,所以在上面方法中`<span class="keyword">if</span> (value != null) `会出现判断通过的情况,在这种情况下我想到的一个处理方式是引入下面的一个判断</span><br></pre></td></tr></table></figure>
+<p>private boolean checkInputParams(Object value) {<br>        Class className = value.getClass();<br>        if (className.equals(Integer.class)) {<br>            return (int) value == 0;<br>        } else if (className.equals(Byte.class)) {<br>            return (byte) value == 0;<br>        } else if (className.equals(Long.class)) {<br>            return (long) value == 0L;<br>        } else if (className.equals(Double.class)) {<br>            return (double) value == 0.0d;<br>        } else if (className.equals(Float.class)) {<br>            return (float) value == 0.0f;<br>        } else if (className.equals(Character.class)) {<br>            return (char) value == ‘\u0000’;<br>        } else if (className.equals(Short.class)) {<br>            return (short) value == 0;<br>        } else if (className.equals(Boolean.class)) {<br>            return !((boolean) value);<br>        }<br>        return false;<br>    }<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不过目前就是只有我一个人在使用,我用的时候注意下使用基本类型的包装类型就可以了,于是并没有将判断方法改成这种</span><br><span class="line"><span class="bullet">3. </span>先引入分页</span><br></pre></td></tr></table></figure></p>
+<p>/**</p>
+<ul>
+<li>mongoDb分页</li>
+<li>@author fulln</li>
+<li><p>@param <t><br>*/<br>@Data<br>@AllArgsConstructor<br>@NoArgsConstructor<br>@JsonInclude(JsonInclude.Include.NON_NULL)<br>public class PageResult<t> {<br> public static  final long NONE = 0;<br> public static final Integer PAGE_SIZE = 10;<br> public static final Integer PAGE_NO = 1;</t></t></p>
+<p> private Integer pageNum;</p>
+</li>
+</ul>
+<pre><code>private Integer pageSize;
+
+
+private Long total;
+
+
+private Integer pages;
+
+
+private List&lt;T&gt; list;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后使用下面方法实现mongo分页</span><br></pre></td></tr></table></figure></p>
+<p>/**</p>
+<pre><code> * 分页查询，直接返回集合类型的结果.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T&gt; PageResult&lt;T&gt; pageQuery(T t) {
+    Integer pageSize;
+    Integer pageNo;
+    try {
+        Field fieldPageSize = t.getClass().getDeclaredField(&quot;pageSize&quot;);
+        Field fieldPageNo = t.getClass().getDeclaredField(&quot;pageNo&quot;);
+        fieldPageSize.setAccessible(true);
+        fieldPageNo.setAccessible(true);
+        pageSize = (Integer) fieldPageSize.get(t);
+        pageNo = (Integer) fieldPageNo.get(t);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+        pageSize = PageResult.PAGE_SIZE;
+        pageNo = PageResult.PAGE_NO;
+    }
+    Query query = buildBaseQuery(t);
+    return pageQuery(query, getEntityClass(t), Function.identity(), pageSize, pageNo, null);
+}
+
+/**
+ * 分页查询，不考虑条件分页，直接使用skip-limit来分页.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum) {
+    return pageQuery(query, entityClass, mapper, pageSize, pageNum, null);
+}
+
+/**
+ * 分页查询
+ * @param query       Mongo Query对象，构造你自己的查询条件.
+ * @param entityClass Mongo collection定义的entity class，用来确定查询哪个集合.
+ * @param mapper      映射器，你从db查出来的list的元素类型是entityClass, 如果你想要转换成另一个对象，比如去掉敏感字段等，可以使用mapper来决定如何转换.
+ * @param pageSize    分页的大小.
+ * @param pageNum     当前页.
+ * @param lastId      条件分页参数, 区别于skip-limit，采用find(_id&gt;lastId).limit分页.
+ *                    如果不跳页，像朋友圈，微博这样下拉刷新的分页需求，需要传递上一页的最后一条记录的ObjectId。 如果是null，则返回pageNum那一页.
+ * @param &lt;T&gt;         collection定义的class类型.
+ * @param &lt;R&gt;         最终返回时，展现给页面时的一条记录的类型。
+ * @return PageResult，一个封装page信息的对象.
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum, String lastId) {
+    //分页逻辑
+    long total = mongoTemplate.count(query, entityClass);
+    final Integer pages = (int) Math.ceil(total / (double) pageSize);
+    if (pageNum &lt;= 0 || pageNum &gt; pages) {
+        pageNum = FIRST_PAGE_NUM;
+    }
+    final Criteria criteria = new Criteria();
+    if (!StringUtils.isEmpty(lastId)) {
+        if (pageNum != FIRST_PAGE_NUM) {
+            criteria.and(ID).gt(new ObjectId(lastId));
+        }
+        query.limit(pageSize);
+    } else {
+        int skip = pageSize * (pageNum - 1);
+        query.skip(skip).limit(pageSize);
+    }
+
+    final List&lt;T&gt; entityList = mongoTemplate
+            .find(query.addCriteria(criteria)
+                            .with(new Sort(Lists.newArrayList(new Order(Sort.Direction.DESC, ID)))),
+                    entityClass);
+
+    final PageResult&lt;R&gt; pageResult = new PageResult&lt;&gt;();
+    pageResult.setTotal(total);
+    pageResult.setPages(pages);
+    pageResult.setPageSize(pageSize);
+    pageResult.setPageNum(pageNum);
+    pageResult.setList(entityList.stream().map(mapper).collect(Collectors.toList()));
+    return pageResult;
+}
+</code></pre><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">以上的反射部分可以使用`org.springframework.util.ReflectionUtils`中推荐的方法替换,可能使用的效率更高,毕竟反射是耗资源的一种调用方式了.</span><br><span class="line"></span><br><span class="line">### 总结</span><br><span class="line">通过以上的几个方式,然后再加上平常使用的mongtemplate使用的各种方法,可以实现单表的crud,解放当前的时间可以去关注其他的事情,稍稍降低下使用mongodb的成本.</span><br><span class="line">附下我使用了mongotemlpate的bean</span><br></pre></td></tr></table></figure>
+<p>/**</p>
+<ul>
+<li>@author : fulln</li>
+<li>@version : JDK 1.8</li>
+<li>@serial :</li>
+<li><p>@date : Created in  16:30  2019/5/31.<br>*/<br>@Slf4j<br>@Component<br>public class MongoHelper {</p>
+<p> public static final int FIRST_PAGE_NUM = 1;<br> public static final String ID = “_id”;<br> private final MongoTemplate mongoTemplate;</p>
+<p> @Autowired<br> public MongoHelper(MongoTemplate mongoTemplate) {</p>
+<pre><code>this.mongoTemplate = mongoTemplate;
+</code></pre><p> }</p>
+</li>
+</ul>
+<pre><code>/**
+ * 分页查询，直接返回集合类型的结果.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T&gt; PageResult&lt;T&gt; pageQuery(T t) {
+    Integer pageSize;
+    Integer pageNo;
+    try {
+        Field fieldPageSize = t.getClass().getDeclaredField(&quot;pageSize&quot;);
+        Field fieldPageNo = t.getClass().getDeclaredField(&quot;pageNo&quot;);
+        fieldPageSize.setAccessible(true);
+        fieldPageNo.setAccessible(true);
+        pageSize = (Integer) fieldPageSize.get(t);
+        pageNo = (Integer) fieldPageNo.get(t);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+        pageSize = PageResult.PAGE_SIZE;
+        pageNo = PageResult.PAGE_NO;
+    }
+    Query query = buildBaseQuery(t);
+    return pageQuery(query, getEntityClass(t), Function.identity(), pageSize, pageNo, null);
+}
+
+/**
+ * 分页查询，不考虑条件分页，直接使用skip-limit来分页.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum) {
+    return pageQuery(query, entityClass, mapper, pageSize, pageNum, null);
+}
+
+/**
+ * 分页查询
+ * @param query       Mongo Query对象，构造你自己的查询条件.
+ * @param entityClass Mongo collection定义的entity class，用来确定查询哪个集合.
+ * @param mapper      映射器，你从db查出来的list的元素类型是entityClass, 如果你想要转换成另一个对象，比如去掉敏感字段等，可以使用mapper来决定如何转换.
+ * @param pageSize    分页的大小.
+ * @param pageNum     当前页.
+ * @param lastId      条件分页参数, 区别于skip-limit，采用find(_id&gt;lastId).limit分页.
+ *                    如果不跳页，像朋友圈，微博这样下拉刷新的分页需求，需要传递上一页的最后一条记录的ObjectId。 如果是null，则返回pageNum那一页.
+ * @param &lt;T&gt;         collection定义的class类型.
+ * @param &lt;R&gt;         最终返回时，展现给页面时的一条记录的类型。
+ * @return PageResult，一个封装page信息的对象.
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum, String lastId) {
+    //分页逻辑
+    long total = mongoTemplate.count(query, entityClass);
+    final Integer pages = (int) Math.ceil(total / (double) pageSize);
+    if (pageNum &lt;= 0 || pageNum &gt; pages) {
+        pageNum = FIRST_PAGE_NUM;
+    }
+    final Criteria criteria = new Criteria();
+    if (!StringUtils.isEmpty(lastId)) {
+        if (pageNum != FIRST_PAGE_NUM) {
+            criteria.and(ID).gt(new ObjectId(lastId));
+        }
+        query.limit(pageSize);
+    } else {
+        int skip = pageSize * (pageNum - 1);
+        query.skip(skip).limit(pageSize);
+    }
+
+    final List&lt;T&gt; entityList = mongoTemplate
+            .find(query.addCriteria(criteria)
+                            .with(new Sort(Lists.newArrayList(new Order(Sort.Direction.DESC, ID)))),
+                    entityClass);
+
+    final PageResult&lt;R&gt; pageResult = new PageResult&lt;&gt;();
+    pageResult.setTotal(total);
+    pageResult.setPages(pages);
+    pageResult.setPageSize(pageSize);
+    pageResult.setPageNum(pageNum);
+    pageResult.setList(entityList.stream().map(mapper).collect(Collectors.toList()));
+    return pageResult;
+}
+
+/**
+ * 查询全部
+ *
+ * @param entityClass
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; List&lt;T&gt; findAll(Class&lt;T&gt; entityClass) {
+    return mongoTemplate.findAll(entityClass);
+}
+
+/**
+ * 新增
+ *
+ * @param entity
+ * @param &lt;T&gt;
+ */
+public &lt;T&gt; void add(T entity) {
+    mongoTemplate.insert(entity);
+}
+
+/**
+ * 保存一个对象到mongodb
+ */
+public &lt;T&gt; T save(T bean) {
+    mongoTemplate.save(bean);
+    return bean;
+}
+
+/**
+ * 根据id删除对象
+ */
+public &lt;T&gt; void deleteById(T t) {
+    mongoTemplate.remove(t);
+}
+
+/**
+ * 根据对象的属性删除
+ */
+public &lt;T&gt; void deleteByCondition(T t) {
+    Query query = buildBaseQuery(t);
+    mongoTemplate.remove(query, getEntityClass(t));
+}
+
+/**
+ * 通过条件查询更新数据
+ */
+public &lt;T&gt; void update(Query query, Update update, Class&lt;T&gt; tClass) {
+    mongoTemplate.updateMulti(query, update, tClass);
+}
+
+/**
+ * 根据id进行更新
+ */
+public &lt;T&gt; void updateById(String id, T t) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where(&quot;id&quot;).is(id));
+    Update update = buildBaseUpdate(t);
+    update(query, update, t.getClass());
+}
+
+
+public &lt;T&gt; List&lt;T&gt; findByCondition(T t) {
+    Query query = buildBaseQuery(t);
+    return mongoTemplate.find(query, getEntityClass(t));
+}
+
+/**
+ * 通过一定的条件查询一个实体
+ */
+public &lt;T&gt; T findOne(T t) {
+    Query query = buildBaseQuery(t);
+    return mongoTemplate.findOne(query, getEntityClass(t));
+}
+
+
+/**
+ * 通过ID获取记录
+ */
+public &lt;T&gt; T get(String id, Class&lt;T&gt; tClass) {
+    return mongoTemplate.findById(id, tClass);
+}
+
+/**
+ * 通过ID获取记录,并且指定了集合名(表的意思)
+ */
+public &lt;T&gt; T get(String id, String collectionName, Class&lt;T&gt; tClass) {
+    return mongoTemplate.findById(id, tClass, collectionName);
+}
+
+/**
+ * 根据vo构建查询条件Query
+ */
+public &lt;T&gt; Query buildBaseQuery(T t) {
+    final Query query = new Query();
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(
+            field -&gt; {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(t);
+</code></pre><p>//                        if (!checkInputParams(value)) {<br>                        if (value != null) {<br>                            MongoField queryField = field.getAnnotation(MongoField.class);<br>                            if (queryField != null) {<br>                                query.addCriteria(queryField.type().buildCriteria(queryField, field, value));<br>                            }<br>                        }<br>//                        }<br>                    } catch (IllegalArgumentException | IllegalAccessException e) {<br>                        log.error(“当前构建Query出现问题”, e);<br>                    }<br>                }<br>        );<br>        return query;<br>    }</p>
+<pre><code>private boolean checkInputParams(Object value) {
+    Class className = value.getClass();
+    if (className.equals(Integer.class)) {
+        return (int) value == 0;
+    } else if (className.equals(Byte.class)) {
+        return (byte) value == 0;
+    } else if (className.equals(Long.class)) {
+        return (long) value == 0L;
+    } else if (className.equals(Double.class)) {
+        return (double) value == 0.0d;
+    } else if (className.equals(Float.class)) {
+        return (float) value == 0.0f;
+    } else if (className.equals(Character.class)) {
+        return (char) value == &apos;\u0000&apos;;
+    } else if (className.equals(Short.class)) {
+        return (short) value == 0;
+    } else if (className.equals(Boolean.class)) {
+        return !((boolean) value);
+    }
+    return false;
+}
+
+
+/**
+ * 根据vo设置更新的条件
+ *
+ * @param t
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; Update buildBaseUpdate(T t) {
+    Update update = new Update();
+
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(field -&gt; {
+        field.setAccessible(true);
+        try {
+            Object value = field.get(t);
+            if (value != null) {
+                MongoField queryField = field.getAnnotation(MongoField.class);
+                if (queryField != null) {
+                    String attribute = queryField.attribute();
+                    if (!StringUtils.isEmpty(attribute)) {
+                        update.set(attribute, value);
+                    } else {
+                        update.set(field.getName(), value);
+                    }
+                } else {
+                    update.set(field.getName(), value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
+    return update;
+}
+
+@SuppressWarnings(&quot;unchecked&quot;)
+public &lt;T&gt; Class&lt;T&gt; getEntityClass(T t) {
+    return (Class&lt;T&gt;) t.getClass();
+}
+</code></pre><p>}<br><code>`</code></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://www.cnblogs.com/woshimrf/p/mongodb-pagenation-performance.html" target="_blank" rel="noopener">https://www.cnblogs.com/woshimrf/p/mongodb-pagenation-performance.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/mq/" rel="next" title="docker创建消息中间件">
+                <i class="fa fa-chevron-left"></i> docker创建消息中间件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/03/hikari和dbcp对比/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/-462a8b11d043cc4b.jpg"
+                alt="fulln" />
+            
+              <p class="site-author-name" itemprop="name">fulln</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+              <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+              <div class="widget-wrap">
+                <h3 class="widget-title">标签云</h3>
+                <div id="myCanvasContainer" class="widget tagcloud">
+                    <canvas width="250" height="250" id="resCanvas" style="width=100%">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-cache/">guava_cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qqbot/">qqbot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitmq/">rabbitmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rtmp/">rtmp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk/">sdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloudstream/">springcloudstream</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swagger2/">swagger2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">vps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">1</span></li></ul>
+                    </canvas>
+                </div>
+              </div>
+            
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fulln" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/2706203070" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:a114mypr1nt@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/fullnlee" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案"><span class="nav-number">3.</span> <span class="nav-text">方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">3.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fulln</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({            
+            id: '1559723082000',
+            owner: 'fulln',
+            repo: 'fulln.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'bd0c6a75c7a295e28ca2ba00580b052893464700',
+            
+                client_id: '6d6e12efc2acfbee17de'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Tn8iXRy9MPOrRXrEmVixeEDj-gzGzoHsz", "lz4xh6OvnRH6m67qFB3dfDGE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "middleRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

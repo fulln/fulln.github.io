@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="Carpe Diem">
 <meta property="og:description" content="在qq群一群复读机说手动ctrl+C crtl+V有点累,于是github上找到了相关的项目——qqbot 具体内容不多说了，上面有详细的介绍说明，以下是实现复读机代码。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748# -*- coding: utf-8 -*-#vers">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-03T07:37:14.027Z">
+<meta property="og:image" content="https://fulln.github.io/images/qqbot-pic1.png">
+<meta property="og:updated_time" content="2019-03-13T18:17:35.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="qq群复读机">
 <meta name="twitter:description" content="在qq群一群复读机说手动ctrl+C crtl+V有点累,于是github上找到了相关的项目——qqbot 具体内容不多说了，上面有详细的介绍说明，以下是实现复读机代码。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748# -*- coding: utf-8 -*-#vers">
+<meta name="twitter:image" content="https://fulln.github.io/images/qqbot-pic1.png">
 
 
 
@@ -374,7 +376,22 @@
 
       
         <p>在qq群一群复读机说手动ctrl+C crtl+V有点累,于是github上找到了相关的项目——<a href="https://github.com/pandolia/qqbot" target="_blank" rel="noopener">qqbot</a> 具体内容不多说了，上面有详细的介绍说明，以下是实现复读机代码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#versin=0.3</span></span><br><span class="line"><span class="comment">#author=fulln</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onQQMessage</span><span class="params">(bot, contact, member, content)</span>:</span>         </span><br><span class="line">    <span class="keyword">if</span> contact.name == <span class="string">'平板！一起玩炉石！'</span>:     </span><br><span class="line">        <span class="keyword">if</span> bot.isMe(contact, member):</span><br><span class="line">            print(<span class="string">'This is me'</span>)</span><br><span class="line">        <span class="keyword">else</span>:           </span><br><span class="line">            <span class="keyword">global</span> contents </span><br><span class="line">            <span class="keyword">global</span> keywords </span><br><span class="line">            contents.append(content)</span><br><span class="line">            kinds = repetition()                    </span><br><span class="line">            <span class="keyword">if</span> content == kinds:            </span><br><span class="line">                bot.SendTo(contact, content)</span><br><span class="line">                keywords=content</span><br><span class="line">                contents=[]                             </span><br><span class="line">            <span class="keyword">elif</span> content == <span class="string">'-stop'</span>:            </span><br><span class="line">                bot.SendTo(contact, <span class="string">"end for This qq"</span>)</span><br><span class="line">                bot.Stop()</span><br><span class="line"></span><br><span class="line">contents=[]</span><br><span class="line">keywords=<span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">repetition</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> contents         </span><br><span class="line">    <span class="keyword">global</span> keywords         </span><br><span class="line">    <span class="keyword">if</span> len(contents) == <span class="number">5</span>:</span><br><span class="line">        dict=&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> contents:</span><br><span class="line">            <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> dict:</span><br><span class="line">                dict[word]=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dict[word]+=<span class="number">1</span>   </span><br><span class="line">        m=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> dict:</span><br><span class="line">            <span class="keyword">if</span> m &lt;dict[key]:                                                    </span><br><span class="line">                    s=key               </span><br><span class="line">                    m=dict[key]                 </span><br><span class="line">        <span class="keyword">if</span> keywords == s:</span><br><span class="line">            contents=[]</span><br><span class="line">            <span class="keyword">return</span>                              </span><br><span class="line">        <span class="keyword">if</span> m &gt; <span class="number">2</span>:                       </span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            contents.pop(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>代码不多，逻辑也简单，只是python的一些语法不是很了解，也还行，挂到私人服务器上面就是一个无限复读机了哈哈~</p>
+<hr>
+<p>7月30号更新<br>想着重新监听所有群里的复读，把代码的逻辑重新写了一遍,我真的是用java的语法写python~<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#versin=0.5</span></span><br><span class="line"><span class="comment">#author=fulln</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onQQMessage</span><span class="params">(bot, contact, member, content)</span>:</span>				</span><br><span class="line">		<span class="keyword">if</span> bot.isMe(contact, member):</span><br><span class="line">			print(<span class="string">'This is me'</span>)</span><br><span class="line">		<span class="keyword">elif</span> content == <span class="string">'-stop'</span>:			</span><br><span class="line">				bot.SendTo(contact, <span class="string">"end for This qq"</span>)</span><br><span class="line">				bot.Stop()	</span><br><span class="line">		<span class="keyword">else</span>:																		</span><br><span class="line">			<span class="keyword">if</span> flags(contact,member,content):</span><br><span class="line">				<span class="keyword">if</span> content == <span class="string">''</span>:</span><br><span class="line">					content=<span class="string">'/表情'</span></span><br><span class="line">				<span class="keyword">for</span> key <span class="keyword">in</span> groupContent[contact.name].keys():	</span><br><span class="line">					bot.SendTo(contact, key)													</span><br><span class="line">			</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">groupContent=&#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">flags</span><span class="params">(contact,member,content)</span>:</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># global keywords</span></span><br><span class="line">	<span class="comment"># if member.name == '拖把':</span></span><br><span class="line">	<span class="comment"># 	#复读一次记录</span></span><br><span class="line">	<span class="comment"># 	keywords = content</span></span><br><span class="line">	<span class="comment"># 	return False</span></span><br><span class="line">	<span class="comment"># else:</span></span><br><span class="line">	<span class="keyword">return</span> repetition(contact,member,content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">repetition</span><span class="params">(contact, member, content)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> groupContent</span><br><span class="line">    <span class="keyword">if</span> contact.name <span class="keyword">not</span> <span class="keyword">in</span> groupContent:</span><br><span class="line">        contents = [content]</span><br><span class="line">        thismaps=&#123;&#125;       </span><br><span class="line">        thismaps[content] = contents</span><br><span class="line">        groupContent[contact.name] = thismaps</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> keys <span class="keyword">in</span> groupContent[contact.name]:</span><br><span class="line">            contents = groupContent[contact.name][keys]</span><br><span class="line">            contents.append(content)</span><br><span class="line">            <span class="keyword">if</span> len(contents) == <span class="number">5</span>:</span><br><span class="line">                dict = &#123;&#125;</span><br><span class="line">                <span class="keyword">for</span> word <span class="keyword">in</span> contents:</span><br><span class="line">                    <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> dict:</span><br><span class="line">                        dict[word] = <span class="number">1</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        dict[word] += <span class="number">1</span></span><br><span class="line">                m = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> key <span class="keyword">in</span> dict:</span><br><span class="line">                    <span class="keyword">if</span> m &lt; dict[key]:</span><br><span class="line">                        s = key</span><br><span class="line">                        m = dict[key]</span><br><span class="line">                <span class="keyword">if</span> keys == s:</span><br><span class="line">                    groupContent[contact.name][keys] = []</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">                <span class="keyword">if</span> m &gt; <span class="number">2</span>:</span><br><span class="line">                    map(groupContent[contact.name].pop, [keys])</span><br><span class="line">                    groupContent[contact.name][s] = []</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    groupContent[contact.name][keys].pop(<span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<p>使用过程中出现的问题有：<br></p>
+<ul>
+<li>如果电脑内存占用过高会卡住</li>
+<li>必须保持一个qqbot的启动cmd窗口在桌面（这个可以通过注册服务的方式到后台去运行）</li>
+<li>不能复制表情和图片</li>
+<li>其实本来想法是可以通过传群名称的方式控制复读哪个群的，现在是监听的所有的群的消息。不过要是想实现监听单个群的话，在这个代码上改起来也快了，具体规范可以查看<a href="https://github.com/pandolia/qqbot" target="_blank" rel="noopener">https://github.com/pandolia/qqbot</a></li>
+</ul>
+<h1 id="以下是qqbot安装教学"><a href="#以下是qqbot安装教学" class="headerlink" title="以下是qqbot安装教学"></a>以下是qqbot安装教学</h1><ol>
+<li>安装python 和pip<a href="https://www.cnblogs.com/yuanzm/p/4089856.html" target="_blank" rel="noopener"> https://www.cnblogs.com/yuanzm/p/4089856.html</a>或者自信百度（注意要配置python和pip的环境变量）</li>
+<li>配置好python和pip的环境变量后，将上面的python代码复制另存为<br>repeater.py,将这个.py文件移到python安装目录下的Lib/site-packages/下面，然后win+r 打开cmd，输入pip install qqbot回车，等待下载完成，然后输入qqbot回车，这里如果报错了的话需要设置wind10的图片默认打开方式 <img src="/images/qqbot-pic1.png" alt="123"> 将图片的打开方式关联一个应用就行了（画图都行），接下来扫码登录就行</li>
+<li>又按下win+r 打开cmd 输入qq plug repeater 看到提示加载成功就可以关掉当前cmd，但是qqbot所在的cmd不能关，qq复读机就加载完成了！</li>
+</ol>
 
       
     </div>
@@ -407,15 +424,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/22/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/28/修改登录端口/" rel="prev" title="自建vps修改22端口">
+                自建vps修改22端口 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -474,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -494,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -505,7 +531,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -518,7 +544,7 @@
                 <h3 class="widget-title">标签云</h3>
                 <div id="myCanvasContainer" class="widget tagcloud">
                     <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qqbot/">qqbot</a><span class="tag-list-count">1</span></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-cache/">guava_cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qqbot/">qqbot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitmq/">rabbitmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rtmp/">rtmp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk/">sdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloudstream/">springcloudstream</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swagger2/">swagger2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">vps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">1</span></li></ul>
                     </canvas>
                 </div>
               </div>
@@ -571,6 +597,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#以下是qqbot安装教学"><span class="nav-number">1.</span> <span class="nav-text">以下是qqbot安装教学</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -586,7 +628,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2016 - 2018 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2016 - 2018 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -771,8 +813,8 @@
     
       <script type="text/javascript">
       function renderGitment(){
-        var gitment = new Gitmint({
-            id: window.location.pathname, 
+        var gitment = new Gitmint({            
+            id: '1530597281000',
             owner: 'fulln',
             repo: 'fulln.github.io',
             

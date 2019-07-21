@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/07/03/qq群复读机/">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2019/07/03/hikari和dbcp对比/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fulln">
@@ -281,7 +281,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/03/qq群复读机/" itemprop="url">qq群复读机</a></h2>
+                <a class="post-title-link" href="/2019/07/03/hikari和dbcp对比/" itemprop="url">未命名</a></h2>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:54:41+08:00">
-                2018-07-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-03T23:32:08+08:00">
+                2019-07-03
               </time>
             
 
@@ -304,28 +304,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/迷之python/" itemprop="url" rel="index">
-                    <span itemprop="name">迷之python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -333,7 +311,7 @@
 
           
           
-             <span id="/2018/07/03/qq群复读机/" class="leancloud_visitors" data-flag-title="qq群复读机">
+             <span id="/2019/07/03/hikari和dbcp对比/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -366,8 +344,24 @@
       
         
           
-            <p>在qq群一群复读机说手动ctrl+C crtl+V有点累,于是github上找到了相关的项目——<a href="https://github.com/pandolia/qqbot" target="_blank" rel="noopener">qqbot</a> 具体内容不多说了，上面有详细的介绍说明，以下是实现复读机代码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#versin=0.3</span></span><br><span class="line"><span class="comment">#author=fulln</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onQQMessage</span><span class="params">(bot, contact, member, content)</span>:</span>         </span><br><span class="line">    <span class="keyword">if</span> contact.name == <span class="string">'平板！一起玩炉石！'</span>:     </span><br><span class="line">        <span class="keyword">if</span> bot.isMe(contact, member):</span><br><span class="line">            print(<span class="string">'This is me'</span>)</span><br><span class="line">        <span class="keyword">else</span>:           </span><br><span class="line">            <span class="keyword">global</span> contents </span><br><span class="line">            <span class="keyword">global</span> keywords </span><br><span class="line">            contents.append(content)</span><br><span class="line">            kinds = repetition()                    </span><br><span class="line">            <span class="keyword">if</span> content == kinds:            </span><br><span class="line">                bot.SendTo(contact, content)</span><br><span class="line">                keywords=content</span><br><span class="line">                contents=[]                             </span><br><span class="line">            <span class="keyword">elif</span> content == <span class="string">'-stop'</span>:            </span><br><span class="line">                bot.SendTo(contact, <span class="string">"end for This qq"</span>)</span><br><span class="line">                bot.Stop()</span><br><span class="line"></span><br><span class="line">contents=[]</span><br><span class="line">keywords=<span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">repetition</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> contents         </span><br><span class="line">    <span class="keyword">global</span> keywords         </span><br><span class="line">    <span class="keyword">if</span> len(contents) == <span class="number">5</span>:</span><br><span class="line">        dict=&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> contents:</span><br><span class="line">            <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> dict:</span><br><span class="line">                dict[word]=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dict[word]+=<span class="number">1</span>   </span><br><span class="line">        m=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> dict:</span><br><span class="line">            <span class="keyword">if</span> m &lt;dict[key]:                                                    </span><br><span class="line">                    s=key               </span><br><span class="line">                    m=dict[key]                 </span><br><span class="line">        <span class="keyword">if</span> keywords == s:</span><br><span class="line">            contents=[]</span><br><span class="line">            <span class="keyword">return</span>                              </span><br><span class="line">        <span class="keyword">if</span> m &gt; <span class="number">2</span>:                       </span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            contents.pop(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
-<p>代码不多，逻辑也简单，只是python的一些语法不是很了解，也还行，挂到私人服务器上面就是一个无限复读机了哈哈~</p>
+            <h2 id="hikri和dbcp-druid连接池对比"><a href="#hikri和dbcp-druid连接池对比" class="headerlink" title="hikri和dbcp,druid连接池对比"></a>hikri和dbcp,druid连接池对比</h2><h3 id="查询一条语句性能测试"><a href="#查询一条语句性能测试" class="headerlink" title="查询一条语句性能测试"></a>查询一条语句性能测试</h3><h4 id="测试说明"><a href="#测试说明" class="headerlink" title="测试说明:"></a>测试说明:</h4><ul>
+<li>单次查询数据为26条,大小为16k</li>
+<li>初始连接和最小连接均为8，最大连接为8。</li>
+<li>测试在不同并发下查询的次数为1w次的总耗时对比，操作步骤为 1：打开连接 2：执行web传递查询次数,调用uri为 <figure class="highlight plain"><figcaption><span>和 ```localhost:8080/hikari/&#123;count&#125;``` count传10000 </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">- 测试用例和mysql在同一台机器上面，尽量避免io的影响</span><br><span class="line">- 除去明显不合理的数据,然后根据查询的结果取平均值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 测试数据：</span><br><span class="line"></span><br><span class="line">#### 线程池测试结果（同一机器上）</span><br><span class="line"> </span><br><span class="line">druid和dbcp开启preparestatement:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| 连接池\并发数 | 8 | 20 |50|100|</span><br><span class="line">| ------ | ------ | ------ | ------ | ------ |</span><br><span class="line">| dbcp| 2320ms| 2329ms |2305ms|2376ms|</span><br><span class="line">| hikari |2206ms |2200ms  |2221ms|2182ms|</span><br><span class="line">| druid |2215ms |2247ms  |2253ms|2234ms|</span><br><span class="line"></span><br><span class="line">druid和dbcp不开启preparestatement:</span><br><span class="line">  </span><br><span class="line">| 连接池\并发数 | 8 | 20 |50|100|</span><br><span class="line">| ------ | ------ | ------ | ------ | ------ |</span><br><span class="line">| dbcp| 2350ms| 2340ms |2319ms|2355ms|</span><br><span class="line">| hikari |2165ms |2220ms  |2216ms|2217ms|</span><br><span class="line">| druid |2260ms |2262ms  |2274ms|2276ms|</span><br><span class="line"></span><br><span class="line">#### 泰坦测试结果（总数设置为1000）</span><br><span class="line"></span><br><span class="line">- dbcp测试结果:</span><br><span class="line">![动态代理](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/dbcp.png)</span><br><span class="line">- druidCp测试结果：</span><br><span class="line">![动态代理](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/druidCp.png)</span><br><span class="line">- hikari测试结果：</span><br><span class="line">![动态代理](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/hikari.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 测试结论</span><br><span class="line">- hikariCP和druidCP对比dbcp有明显优势..</span><br><span class="line">- 随着并发的升高，hikariCP查询耗时基本上没有变动。 </span><br><span class="line">- druidCp的性能相对也好,另外在可拓展性上比较高</span><br><span class="line">- druidCp在大数据的承受上有淘宝的验证,而hikariCp相对这方面比较少</span><br><span class="line">- SpringBoot2.0版本默认使用的HikariCP就是最好的认可</span><br><span class="line">- 开启prepareStatement后会对druidCp和dbcp有性能上的提升,但是perpareStatement对象开销比较大,对于一次性操作并不会带来性能上的提升.</span><br><span class="line"></span><br><span class="line">## hikari性能解析</span><br><span class="line">为什么hikariCp会号称目前java中最快的数据库连接池呢?jdbc连接池的实现不复杂,接下来从几个方面来看为什么会这么快</span><br><span class="line"></span><br><span class="line">### 动态代理</span><br><span class="line">将连接池中的几个核心对象全部采用Javassist生成动态代理的形式实现,相比使用JDK Proxy精简了很多不必要的字节码.</span><br><span class="line">![动态代理](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/dtdl.png)</span><br><span class="line"></span><br><span class="line">### ConcurrentBag</span><br><span class="line">ConcurrentBag的实现借鉴于C#中的同名类，是一个专门为连接池设计的lock-less集合，实现了比LinkedBlockingQueue、LinkedTransferQueue更好的并发性能。</span><br><span class="line"></span><br><span class="line">![hikari](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/bag.png)</span><br><span class="line"></span><br><span class="line">### 使用FastList替代ArrayList</span><br><span class="line"></span><br><span class="line">精简实现List接口,只实现了接口中的几个方法,在get方法中 不进行索引的越界检查,remove方法采用从尾部遍历的方式,在connect连接的时候更加statement关闭的规律.</span><br><span class="line"></span><br><span class="line">![hikari](https://gitlab.yunjiglobal.com/lifeng/CpCompare/blob/master/pic/remove.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## DBCP迁移到hikari</span><br><span class="line"> 在java7 下,将</span><br></pre></td></tr></table></figure></li>
+</ul>
+<!-- 数据库连接池 -->
+<pre><code>&lt;bean id=&quot;myDataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;
+    destroy-method=&quot;close&quot;&gt;
+    &lt;property name=&quot;driverClassName&quot; value=&quot;#{db.driverClassName}&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;url&quot; value=&quot;#{db.url}&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;username&quot; value=&quot;#{db.username}&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;password&quot; value=&quot;#{db.password}&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">替换成</span><br></pre></td></tr></table></figure>
+ <bean id="dataSourceHikari" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown"><br>        <property name="driverClassName" value="${jdbc.driver}"><br>        <property name="jdbcUrl" value="${jdbc.url}"><br>        <property name="username" value="${jdbc.username}"><br>        <property name="password" value="${jdbc.password}"><br>        <!-- 连接只读数据库时配置为true， 保证安全 --><br>        <property name="readOnly" value="false"><br>        <!-- 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒 --><br>        <property name="connectionTimeout" value="30000"><br>        <!-- 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟 --><br>        <property name="idleTimeout" value="600000"><br>        <!-- 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL 
+            wait_timeout参数（show variables like '%timeout%';） --><br>        <property name="maxLifetime" value="1800000"><br>        <!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) --><br>        <property name="maximumPoolSize" value="60"><br>    </property></property></property></property></property></property></property></property></property></bean>
+
+<p><code>`</code><br>即可以使用hikari连接池<br>项目地址: <a href="https://gitlab.yunjiglobal.com/lifeng/CpCompare" target="_blank" rel="noopener">https://gitlab.yunjiglobal.com/lifeng/CpCompare</a><br>hikari github地址: <a href="https://github.com/brettwooldridge/HikariCP" target="_blank" rel="noopener">https://github.com/brettwooldridge/HikariCP</a></p>
 
           
         
@@ -416,7 +410,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/06/22/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2019/06/05/MongoDb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="fulln">
@@ -435,7 +429,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/22/hello-world/" itemprop="url">Hello World</a></h2>
+                <a class="post-title-link" href="/2019/06/05/MongoDb/" itemprop="url">mongodb实现自定义注解</a></h2>
         
 
         <div class="post-meta">
@@ -447,8 +441,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T18:44:58+08:00">
-                2018-06-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T16:24:42+08:00">
+                2019-06-05
               </time>
             
 
@@ -458,6 +452,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/菜鸡java/" itemprop="url" rel="index">
+                    <span itemprop="name">菜鸡java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -465,7 +481,7 @@
 
           
           
-             <span id="/2018/06/22/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/2019/06/05/MongoDb/" class="leancloud_visitors" data-flag-title="mongodb实现自定义注解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -498,17 +514,1734 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在使用mongodb的时候发现有个问题,就是对于它的自定义方法需要学习的成本,才能很好的在平常的过程中用java驱动调用mongodb.也行就是这个成本的东西有点高才导致很多人对mongo的使用方案不会第一时间进行考虑,对于一些事务强需求的领域就不说了,毕竟mongo的驱动都是非事务型的<br>,不过在一些查询多的领域,配合es查询使用应该比关系型数据库好用很多. 所以目前为了解决这个痛点,搜索了中文网大部分的解决方案,配套使用了一套自定义注解对mongodb进行读写</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>目前主要是想实现的是入参一个实体类能自动对应出mongodb的对应的查询语句,然后调用template连接mongodb进行查询.<br>mongodb现网大部分解决思路都是使用的baseMongoDao然后再用具体的dao去继承,根据现网的情况稍微做了点调整:</p>
+<ol>
+<li>添加实体类注解,实现当前的字段和mongo的查询条件对应</li>
+<li>在basedao中添加注解拼装成query实体,直接放到template中执行</li>
+<li>满足分页需求,添加pagequery的方法</li>
+</ol>
+<h3 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h3><ol>
+<li>新增实体类注解@MongoField<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MongoField &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用的默认类型</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    QueryType <span class="keyword">type</span>() <span class="keyword">default</span> QueryType.EQUALS;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * db中的字段名称</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="built_in">String</span> attribute() <span class="keyword">default</span> <span class="string">""</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">这里考虑注解到字段层面,要继承的时候也能使用到,然后在这个queryType里面实现字段和query条件的转换</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>public enum QueryType {<br>    /*<em>
+     </em><br>     */<br>    EQUALS {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                return Criteria.where(queryField).is(value.toString());<br>            }<br>            return new Criteria();<br>        }<br>    },<br>    LIKE {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                return Criteria.where(queryField).regex(value.toString());<br>            }<br>            return new Criteria();<br>        }<br>    },<br>    IN {<br>        @Override<br>        public Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value) {<br>            if (check(queryFieldAnnotation, field, value)) {<br>                if (value instanceof List) {<br>                    String queryField = getQueryFieldName(queryFieldAnnotation, field);<br>                    // 此处必须转型为List，否则会在in外面多一层[]<br>                    return Criteria.where(queryField).in((List&lt;?&gt;)value);<br>                }<br>            }<br>            return new Criteria();<br>        }<br>    };</p>
+<pre><code>private static boolean check(MongoField queryField, Field field, Object value) {
+    return !(queryField == null || field == null || value == null);  
+}  
+
+
+public abstract Criteria buildCriteria(MongoField queryFieldAnnotation, Field field, Object value);
+
+
+/** 
+ * 如果实体bean的字段上QueryField注解没有设置attribute属性时，默认为该字段的名称 
+ * 
+ * @param queryField
+ * @param field 
+ * @return 
+ */  
+private static String getQueryFieldName(MongoField queryField, Field field) {
+    String queryFieldValue = queryField.attribute();
+    if (!StringUtils.hasText(queryFieldValue)) {
+        queryFieldValue = field.getName();  
+    }  
+    return queryFieldValue;  
+}
+</code></pre><p>}  </p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">2. </span>在这边我不是使用的basedao而是使用bean注入的形式进行调用,满足一个动态调用的情况,就是不知道这样有没有其他的未知的风险,然后在这个bean中新建了buildbasequery:</span><br></pre></td></tr></table></figure>
+<p>/**</p>
+<pre><code> * 根据vo构建查询条件Query
+ */
+public &lt;T&gt; Query buildBaseQuery(T t) {
+    final Query query = new Query();
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(
+            field -&gt; {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(t);
+</code></pre><p>//                        if (!checkInputParams(value)) {<br>                        if (value != null) {<br>                            MongoField queryField = field.getAnnotation(MongoField.class);<br>                            if (queryField != null) {<br>                                query.addCriteria(queryField.type().buildCriteria(queryField, field, value));<br>                            }<br>                        }<br>//                        }<br>                    } catch (IllegalArgumentException | IllegalAccessException e) {<br>                        log.error(“当前构建Query出现问题”, e);<br>                    }<br>                }<br>        );<br>        return query;<br>    }</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在这边我其实发现了一个问题,当我使用的类型为基础类型而不是他的包装类型的时候是会有个空值默认为<span class="number">0</span>的情况的,所以在上面方法中`<span class="keyword">if</span> (value != null) `会出现判断通过的情况,在这种情况下我想到的一个处理方式是引入下面的一个判断</span><br></pre></td></tr></table></figure>
+<p>private boolean checkInputParams(Object value) {<br>        Class className = value.getClass();<br>        if (className.equals(Integer.class)) {<br>            return (int) value == 0;<br>        } else if (className.equals(Byte.class)) {<br>            return (byte) value == 0;<br>        } else if (className.equals(Long.class)) {<br>            return (long) value == 0L;<br>        } else if (className.equals(Double.class)) {<br>            return (double) value == 0.0d;<br>        } else if (className.equals(Float.class)) {<br>            return (float) value == 0.0f;<br>        } else if (className.equals(Character.class)) {<br>            return (char) value == ‘\u0000’;<br>        } else if (className.equals(Short.class)) {<br>            return (short) value == 0;<br>        } else if (className.equals(Boolean.class)) {<br>            return !((boolean) value);<br>        }<br>        return false;<br>    }<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不过目前就是只有我一个人在使用,我用的时候注意下使用基本类型的包装类型就可以了,于是并没有将判断方法改成这种</span><br><span class="line"><span class="bullet">3. </span>先引入分页</span><br></pre></td></tr></table></figure></p>
+<p>/**</p>
+<ul>
+<li>mongoDb分页</li>
+<li>@author fulln</li>
+<li><p>@param <t><br>*/<br>@Data<br>@AllArgsConstructor<br>@NoArgsConstructor<br>@JsonInclude(JsonInclude.Include.NON_NULL)<br>public class PageResult<t> {<br> public static  final long NONE = 0;<br> public static final Integer PAGE_SIZE = 10;<br> public static final Integer PAGE_NO = 1;</t></t></p>
+<p> private Integer pageNum;</p>
+</li>
+</ul>
+<pre><code>private Integer pageSize;
+
+
+private Long total;
+
+
+private Integer pages;
+
+
+private List&lt;T&gt; list;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后使用下面方法实现mongo分页</span><br></pre></td></tr></table></figure></p>
+<p>/**</p>
+<pre><code> * 分页查询，直接返回集合类型的结果.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T&gt; PageResult&lt;T&gt; pageQuery(T t) {
+    Integer pageSize;
+    Integer pageNo;
+    try {
+        Field fieldPageSize = t.getClass().getDeclaredField(&quot;pageSize&quot;);
+        Field fieldPageNo = t.getClass().getDeclaredField(&quot;pageNo&quot;);
+        fieldPageSize.setAccessible(true);
+        fieldPageNo.setAccessible(true);
+        pageSize = (Integer) fieldPageSize.get(t);
+        pageNo = (Integer) fieldPageNo.get(t);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+        pageSize = PageResult.PAGE_SIZE;
+        pageNo = PageResult.PAGE_NO;
+    }
+    Query query = buildBaseQuery(t);
+    return pageQuery(query, getEntityClass(t), Function.identity(), pageSize, pageNo, null);
+}
+
+/**
+ * 分页查询，不考虑条件分页，直接使用skip-limit来分页.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum) {
+    return pageQuery(query, entityClass, mapper, pageSize, pageNum, null);
+}
+
+/**
+ * 分页查询
+ * @param query       Mongo Query对象，构造你自己的查询条件.
+ * @param entityClass Mongo collection定义的entity class，用来确定查询哪个集合.
+ * @param mapper      映射器，你从db查出来的list的元素类型是entityClass, 如果你想要转换成另一个对象，比如去掉敏感字段等，可以使用mapper来决定如何转换.
+ * @param pageSize    分页的大小.
+ * @param pageNum     当前页.
+ * @param lastId      条件分页参数, 区别于skip-limit，采用find(_id&gt;lastId).limit分页.
+ *                    如果不跳页，像朋友圈，微博这样下拉刷新的分页需求，需要传递上一页的最后一条记录的ObjectId。 如果是null，则返回pageNum那一页.
+ * @param &lt;T&gt;         collection定义的class类型.
+ * @param &lt;R&gt;         最终返回时，展现给页面时的一条记录的类型。
+ * @return PageResult，一个封装page信息的对象.
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum, String lastId) {
+    //分页逻辑
+    long total = mongoTemplate.count(query, entityClass);
+    final Integer pages = (int) Math.ceil(total / (double) pageSize);
+    if (pageNum &lt;= 0 || pageNum &gt; pages) {
+        pageNum = FIRST_PAGE_NUM;
+    }
+    final Criteria criteria = new Criteria();
+    if (!StringUtils.isEmpty(lastId)) {
+        if (pageNum != FIRST_PAGE_NUM) {
+            criteria.and(ID).gt(new ObjectId(lastId));
+        }
+        query.limit(pageSize);
+    } else {
+        int skip = pageSize * (pageNum - 1);
+        query.skip(skip).limit(pageSize);
+    }
+
+    final List&lt;T&gt; entityList = mongoTemplate
+            .find(query.addCriteria(criteria)
+                            .with(new Sort(Lists.newArrayList(new Order(Sort.Direction.DESC, ID)))),
+                    entityClass);
+
+    final PageResult&lt;R&gt; pageResult = new PageResult&lt;&gt;();
+    pageResult.setTotal(total);
+    pageResult.setPages(pages);
+    pageResult.setPageSize(pageSize);
+    pageResult.setPageNum(pageNum);
+    pageResult.setList(entityList.stream().map(mapper).collect(Collectors.toList()));
+    return pageResult;
+}
+</code></pre><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">以上的反射部分可以使用`org.springframework.util.ReflectionUtils`中推荐的方法替换,可能使用的效率更高,毕竟反射是耗资源的一种调用方式了.</span><br><span class="line"></span><br><span class="line">### 总结</span><br><span class="line">通过以上的几个方式,然后再加上平常使用的mongtemplate使用的各种方法,可以实现单表的crud,解放当前的时间可以去关注其他的事情,稍稍降低下使用mongodb的成本.</span><br><span class="line">附下我使用了mongotemlpate的bean</span><br></pre></td></tr></table></figure>
+<p>/**</p>
+<ul>
+<li>@author : fulln</li>
+<li>@version : JDK 1.8</li>
+<li>@serial :</li>
+<li><p>@date : Created in  16:30  2019/5/31.<br>*/<br>@Slf4j<br>@Component<br>public class MongoHelper {</p>
+<p> public static final int FIRST_PAGE_NUM = 1;<br> public static final String ID = “_id”;<br> private final MongoTemplate mongoTemplate;</p>
+<p> @Autowired<br> public MongoHelper(MongoTemplate mongoTemplate) {</p>
+<pre><code>this.mongoTemplate = mongoTemplate;
+</code></pre><p> }</p>
+</li>
+</ul>
+<pre><code>/**
+ * 分页查询，直接返回集合类型的结果.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T&gt; PageResult&lt;T&gt; pageQuery(T t) {
+    Integer pageSize;
+    Integer pageNo;
+    try {
+        Field fieldPageSize = t.getClass().getDeclaredField(&quot;pageSize&quot;);
+        Field fieldPageNo = t.getClass().getDeclaredField(&quot;pageNo&quot;);
+        fieldPageSize.setAccessible(true);
+        fieldPageNo.setAccessible(true);
+        pageSize = (Integer) fieldPageSize.get(t);
+        pageNo = (Integer) fieldPageNo.get(t);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+        pageSize = PageResult.PAGE_SIZE;
+        pageNo = PageResult.PAGE_NO;
+    }
+    Query query = buildBaseQuery(t);
+    return pageQuery(query, getEntityClass(t), Function.identity(), pageSize, pageNo, null);
+}
+
+/**
+ * 分页查询，不考虑条件分页，直接使用skip-limit来分页.
+ *
+ * @see MongoHelper#pageQuery(org.springframework.data.mongodb.core.query.Query,
+ * java.lang.Class, java.util.function.Function, java.lang.Integer, java.lang.Integer,
+ * java.lang.String)
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum) {
+    return pageQuery(query, entityClass, mapper, pageSize, pageNum, null);
+}
+
+/**
+ * 分页查询
+ * @param query       Mongo Query对象，构造你自己的查询条件.
+ * @param entityClass Mongo collection定义的entity class，用来确定查询哪个集合.
+ * @param mapper      映射器，你从db查出来的list的元素类型是entityClass, 如果你想要转换成另一个对象，比如去掉敏感字段等，可以使用mapper来决定如何转换.
+ * @param pageSize    分页的大小.
+ * @param pageNum     当前页.
+ * @param lastId      条件分页参数, 区别于skip-limit，采用find(_id&gt;lastId).limit分页.
+ *                    如果不跳页，像朋友圈，微博这样下拉刷新的分页需求，需要传递上一页的最后一条记录的ObjectId。 如果是null，则返回pageNum那一页.
+ * @param &lt;T&gt;         collection定义的class类型.
+ * @param &lt;R&gt;         最终返回时，展现给页面时的一条记录的类型。
+ * @return PageResult，一个封装page信息的对象.
+ */
+public &lt;T, R&gt; PageResult&lt;R&gt; pageQuery(Query query, Class&lt;T&gt; entityClass, Function&lt;T, R&gt; mapper,
+                                      Integer pageSize, Integer pageNum, String lastId) {
+    //分页逻辑
+    long total = mongoTemplate.count(query, entityClass);
+    final Integer pages = (int) Math.ceil(total / (double) pageSize);
+    if (pageNum &lt;= 0 || pageNum &gt; pages) {
+        pageNum = FIRST_PAGE_NUM;
+    }
+    final Criteria criteria = new Criteria();
+    if (!StringUtils.isEmpty(lastId)) {
+        if (pageNum != FIRST_PAGE_NUM) {
+            criteria.and(ID).gt(new ObjectId(lastId));
+        }
+        query.limit(pageSize);
+    } else {
+        int skip = pageSize * (pageNum - 1);
+        query.skip(skip).limit(pageSize);
+    }
+
+    final List&lt;T&gt; entityList = mongoTemplate
+            .find(query.addCriteria(criteria)
+                            .with(new Sort(Lists.newArrayList(new Order(Sort.Direction.DESC, ID)))),
+                    entityClass);
+
+    final PageResult&lt;R&gt; pageResult = new PageResult&lt;&gt;();
+    pageResult.setTotal(total);
+    pageResult.setPages(pages);
+    pageResult.setPageSize(pageSize);
+    pageResult.setPageNum(pageNum);
+    pageResult.setList(entityList.stream().map(mapper).collect(Collectors.toList()));
+    return pageResult;
+}
+
+/**
+ * 查询全部
+ *
+ * @param entityClass
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; List&lt;T&gt; findAll(Class&lt;T&gt; entityClass) {
+    return mongoTemplate.findAll(entityClass);
+}
+
+/**
+ * 新增
+ *
+ * @param entity
+ * @param &lt;T&gt;
+ */
+public &lt;T&gt; void add(T entity) {
+    mongoTemplate.insert(entity);
+}
+
+/**
+ * 保存一个对象到mongodb
+ */
+public &lt;T&gt; T save(T bean) {
+    mongoTemplate.save(bean);
+    return bean;
+}
+
+/**
+ * 根据id删除对象
+ */
+public &lt;T&gt; void deleteById(T t) {
+    mongoTemplate.remove(t);
+}
+
+/**
+ * 根据对象的属性删除
+ */
+public &lt;T&gt; void deleteByCondition(T t) {
+    Query query = buildBaseQuery(t);
+    mongoTemplate.remove(query, getEntityClass(t));
+}
+
+/**
+ * 通过条件查询更新数据
+ */
+public &lt;T&gt; void update(Query query, Update update, Class&lt;T&gt; tClass) {
+    mongoTemplate.updateMulti(query, update, tClass);
+}
+
+/**
+ * 根据id进行更新
+ */
+public &lt;T&gt; void updateById(String id, T t) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where(&quot;id&quot;).is(id));
+    Update update = buildBaseUpdate(t);
+    update(query, update, t.getClass());
+}
+
+
+public &lt;T&gt; List&lt;T&gt; findByCondition(T t) {
+    Query query = buildBaseQuery(t);
+    return mongoTemplate.find(query, getEntityClass(t));
+}
+
+/**
+ * 通过一定的条件查询一个实体
+ */
+public &lt;T&gt; T findOne(T t) {
+    Query query = buildBaseQuery(t);
+    return mongoTemplate.findOne(query, getEntityClass(t));
+}
+
+
+/**
+ * 通过ID获取记录
+ */
+public &lt;T&gt; T get(String id, Class&lt;T&gt; tClass) {
+    return mongoTemplate.findById(id, tClass);
+}
+
+/**
+ * 通过ID获取记录,并且指定了集合名(表的意思)
+ */
+public &lt;T&gt; T get(String id, String collectionName, Class&lt;T&gt; tClass) {
+    return mongoTemplate.findById(id, tClass, collectionName);
+}
+
+/**
+ * 根据vo构建查询条件Query
+ */
+public &lt;T&gt; Query buildBaseQuery(T t) {
+    final Query query = new Query();
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(
+            field -&gt; {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(t);
+</code></pre><p>//                        if (!checkInputParams(value)) {<br>                        if (value != null) {<br>                            MongoField queryField = field.getAnnotation(MongoField.class);<br>                            if (queryField != null) {<br>                                query.addCriteria(queryField.type().buildCriteria(queryField, field, value));<br>                            }<br>                        }<br>//                        }<br>                    } catch (IllegalArgumentException | IllegalAccessException e) {<br>                        log.error(“当前构建Query出现问题”, e);<br>                    }<br>                }<br>        );<br>        return query;<br>    }</p>
+<pre><code>private boolean checkInputParams(Object value) {
+    Class className = value.getClass();
+    if (className.equals(Integer.class)) {
+        return (int) value == 0;
+    } else if (className.equals(Byte.class)) {
+        return (byte) value == 0;
+    } else if (className.equals(Long.class)) {
+        return (long) value == 0L;
+    } else if (className.equals(Double.class)) {
+        return (double) value == 0.0d;
+    } else if (className.equals(Float.class)) {
+        return (float) value == 0.0f;
+    } else if (className.equals(Character.class)) {
+        return (char) value == &apos;\u0000&apos;;
+    } else if (className.equals(Short.class)) {
+        return (short) value == 0;
+    } else if (className.equals(Boolean.class)) {
+        return !((boolean) value);
+    }
+    return false;
+}
+
+
+/**
+ * 根据vo设置更新的条件
+ *
+ * @param t
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; Update buildBaseUpdate(T t) {
+    Update update = new Update();
+
+    Field[] fields = t.getClass().getDeclaredFields();
+    Arrays.stream(fields).forEach(field -&gt; {
+        field.setAccessible(true);
+        try {
+            Object value = field.get(t);
+            if (value != null) {
+                MongoField queryField = field.getAnnotation(MongoField.class);
+                if (queryField != null) {
+                    String attribute = queryField.attribute();
+                    if (!StringUtils.isEmpty(attribute)) {
+                        update.set(attribute, value);
+                    } else {
+                        update.set(field.getName(), value);
+                    }
+                } else {
+                    update.set(field.getName(), value);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
+    return update;
+}
+
+@SuppressWarnings(&quot;unchecked&quot;)
+public &lt;T&gt; Class&lt;T&gt; getEntityClass(T t) {
+    return (Class&lt;T&gt;) t.getClass();
+}
+</code></pre><p>}<br><code>`</code></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://www.cnblogs.com/woshimrf/p/mongodb-pagenation-performance.html" target="_blank" rel="noopener">https://www.cnblogs.com/woshimrf/p/mongodb-pagenation-performance.html</a></p>
 
           
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/11/07/mq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/07/mq/" itemprop="url">docker创建消息中间件</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T23:46:50+08:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/07/mq/" class="leancloud_visitors" data-flag-title="docker创建消息中间件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>直接上docker-compose.yml<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/07/mq/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/10/23/steam/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/23/steam/" itemprop="url">Java8中stream API</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-23T23:44:40+08:00">
+                2018-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/菜鸡java/" itemprop="url" rel="index">
+                    <span itemprop="name">菜鸡java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/23/steam/" class="leancloud_visitors" data-flag-title="Java8中stream API">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://source.unsplash.com/random/1920" rel="gallery_cjyd2alel001m3wvm3uv2nqbp"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://source.unsplash.com/random/1920" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        
+          <p>java8正式版本都出这么久了,平常也不太注意使用,但是关于stream确实方便,做个记录<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/23/steam/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/10/18/docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/docker/" itemprop="url">docker部署springboot项目</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T11:39:28+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/18/docker/" class="leancloud_visitors" data-flag-title="docker部署springboot项目">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近微服务化应该是比较火了，docker化springboot项目应该是其中基础了，来写一写docker相关的东西吧。</p>
+<h3 id="dockerfile的编写"><a href="#dockerfile的编写" class="headerlink" title="dockerfile的编写"></a>dockerfile的编写</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> java:<span class="number">8</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> : fulln &lt;i@fulln.me&gt;</span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash">  /tmp</span></span><br><span class="line"><span class="bash"><span class="comment">#ARG JAR_FILE</span></span></span><br><span class="line"><span class="bash"><span class="comment">#COPY $&#123;JAR_FILE&#125;  api.jar</span></span></span><br><span class="line"><span class="bash">COPY api.jar  api.jar</span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"java"</span>,<span class="string">"-Djava.security.egd=file:/dev/./urandom"</span>,<span class="string">"-jar"</span>,<span class="string">"/api.jar"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>一个典型的dockerfile文件包含的几个部分<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/docker/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/09/12/springboot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/12/springboot/" itemprop="url">springboot在部署到tomcat里启动就运行线程</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T01:14:08+08:00">
+                2018-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发工具/" itemprop="url" rel="index">
+                    <span itemprop="name">开发工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/12/springboot/" class="leancloud_visitors" data-flag-title="springboot在部署到tomcat里启动就运行线程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://api.yingjoy.cn/pic/?t=random&w=1920" rel="gallery_cjyd2al4u00043wvm8vucjduv"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://api.yingjoy.cn/pic/?t=random&w=1920" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        
+          <p>写一些关于在项目中遇见的坑把，最近一个问题真的把我搞晕了。<br><br>我用springboot写了一个推送的工程，里面使用到了线程池的问题，大概流程是启动的时候，启动一个线程池去进行不断的推送，数据源来自mysql,并启动守护线程去监听线程的安全，这个任务还是简单， 于是我使用springboot几下完成了这个构建，我以为这个项目就到这里结束了但是这个才是开始。</p>
+<ol>
+<li><p>项目是springboot项目，但是在公司服务器中是要一起放到一个端口下进行运行的，<br>为了实现这个，springboot需要改成tomcat启动<br>这个就2个地方需要改动</p>
+<ul>
+<li><p>启动类</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">SpringApplicationBuilder</span> configure(<span class="type">SpringApplicationBuilder</span> application) &#123;</span><br><span class="line">        <span class="keyword">return</span> application.sources(<span class="type">Application</span>.<span class="keyword">class</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(<span class="type">String</span>[] args) &#123;</span><br><span class="line">        <span class="type">SpringApplication</span>.run(<span class="type">Application</span>.<span class="keyword">class</span>, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pom文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/12/springboot/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/09/01/stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/01/stream/" itemprop="url">redis unexpected end of stream 问题</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T16:43:13+08:00">
+                2018-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发工具/" itemprop="url" rel="index">
+                    <span itemprop="name">开发工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/01/stream/" class="leancloud_visitors" data-flag-title="redis unexpected end of stream 问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p> 使用redisTemplate来进行java项目的开发的时候log一直遇见一个问题，搜了下<br>基本上都是要我去修改下使用的redis的config文件，设置关闭缓冲区限制，</p>
+<blockquote>
+<p>client-output-buffer-limit normal 0 0 0 <br><br>client-output-buffer-limit slave 0 0 0 <br><br>client-output-buffer-limit pubsub 0 0 0</p>
+</blockquote>
+<p>但是这样还是没能解决我的问题，又看到许多人说的设置time’out 设置长一点或者干脆设置不过期，我运行之后还是有这个unexpected end of stream的问题。但是我用RedisDesktopManagement查询key是可以查出来结果的，<br>我只能从代码端入手看怎么产生这个问题的<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/01/stream/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/08/22/nginx配置rtmp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/22/nginx配置rtmp/" itemprop="url">nginx配置rtmp</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T14:01:05+08:00">
+                2018-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux之海/" itemprop="url" rel="index">
+                    <span itemprop="name">linux之海</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/22/nginx配置rtmp/" class="leancloud_visitors" data-flag-title="nginx配置rtmp">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在服务器端设置nginx的时候会有有用的东西，比如它自带的rtmp模块，下面写下关于nginx设置rtmp的设置<br></p>
+<ol>
+<li><h1 id="nginx服务器搭建"><a href="#nginx服务器搭建" class="headerlink" title="nginx服务器搭建"></a>nginx服务器搭建</h1>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/22/nginx配置rtmp/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/08/10/swagger2在spring4.3下生成离线文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/swagger2在spring4.3下生成离线文档/" itemprop="url">swagger2在spring4.3下生成离线文档</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-10T12:42:22+08:00">
+                2018-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/菜鸡java/" itemprop="url" rel="index">
+                    <span itemprop="name">菜鸡java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/10/swagger2在spring4.3下生成离线文档/" class="leancloud_visitors" data-flag-title="swagger2在spring4.3下生成离线文档">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>  &nbsp;&nbsp;&nbsp;&nbsp;最近在写关于swagger的离线文档生成，真是踩坑无数。。swagger2用于在线文档api生成还是比较直观的，但是说代码的入侵有点高，这个是一个缺点，在线文档有时又不是很方便（我只把在线的文档部署到了本地环境），所以想着做成离线文档的形式方便传阅，但是没有我想象中的那么简单搞定</p>
+<ol>
+<li><h1 id="在项目上进行修改"><a href="#在项目上进行修改" class="headerlink" title="在项目上进行修改"></a>在项目上进行修改</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;我是已经写完了在线的文档的生成的，想看swagger2的在线部署的可以去<code>[https://blog.csdn.net/saytime/article/details/74937664](https://blog.csdn.net/saytime/article/details/74937664)</code>上进行了解，有一个巨坑在这边，我是使用的spring4.3的相关配件而不是springboot，网上大部分的都是针对的springboot进行的教程讲解,我使用了如下的配置进行实验</p>
+<ul>
+<li>依赖<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/10/swagger2在spring4.3下生成离线文档/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://fulln.github.io/2018/08/03/获取非登录情况下的页面信息/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="fulln">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/-462a8b11d043cc4b.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carpe Diem">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/03/获取非登录情况下的页面信息/" itemprop="url">获取非登录情况下的页面信息</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T01:08:45+08:00">
+                2018-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/迷之python/" itemprop="url" rel="index">
+                    <span itemprop="name">迷之python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/03/获取非登录情况下的页面信息/" class="leancloud_visitors" data-flag-title="获取非登录情况下的页面信息">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>之前写过一点点关于爬单个页面的python，今天就做了个整合，主要是抽象出来html的获取方式方便修改下面是代码<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/03/获取非登录情况下的页面信息/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -545,6 +2278,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -592,7 +2329,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -603,7 +2340,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -616,7 +2353,7 @@
                 <h3 class="widget-title">标签云</h3>
                 <div id="myCanvasContainer" class="widget tagcloud">
                     <canvas width="250" height="250" id="resCanvas" style="width=100%">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qqbot/">qqbot</a><span class="tag-list-count">1</span></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-cache/">guava_cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qqbot/">qqbot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitmq/">rabbitmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rtmp/">rtmp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk/">sdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/">spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloudstream/">springcloudstream</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swagger2/">swagger2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/">tomcat</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">vps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程池/">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a><span class="tag-list-count">1</span></li></ul>
                     </canvas>
                 </div>
               </div>
@@ -684,7 +2421,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2016 - 2018 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2016 - 2018 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
